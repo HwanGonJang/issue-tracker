@@ -1,8 +1,6 @@
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
-import os
-from datetime import datetime
 import pandas as pd
 
 # 서비스 계정 인증 정보가 담긴 JSON 파일 경로

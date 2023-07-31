@@ -1,8 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import to_timestamp, udf
 
-from datetime import datetime, timedelta
-
 import os
 
 # 구글 클라우드 프로젝트 ID 설정

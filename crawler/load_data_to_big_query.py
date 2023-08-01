@@ -2,11 +2,11 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import to_timestamp, udf
 
 import os
+from dotenv import load_dotenv
 from datetime import datetime, timedelta
 
-# 구글 클라우드 프로젝트 ID 설정
-os.environ["GOOGLE_CLOUD_PROJECT"] = "issue-tracker-394212"
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "../config/issue-tracker-394212-703a8b25244e.json"
+load_dotenv()
+project_id = os.environ.get('GOOGLE_CLOUD_PROJECT_ID')
 
 spark = SparkSession.builder\
   .appName('issue-tracker')\
@@ -24,7 +24,7 @@ spark.udf.register("datetime_to_string", datetime_to_string)
 # 데이터 조회
 df = spark.read \
   .format('bigquery') \
-  .load('issue-tracker-394212.news.news')
+  .load(f'{project_id}.news.news')
 
 df.createOrReplaceTempView("news")
 

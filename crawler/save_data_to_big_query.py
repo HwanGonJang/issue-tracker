@@ -1,12 +1,10 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, TimestampType
 
-import os
+from dotenv import load_dotenv
 from datetime import datetime
 
-# 구글 클라우드 프로젝트 ID 설정
-os.environ["GOOGLE_CLOUD_PROJECT"] = "issue-tracker-394212"
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "../config/issue-tracker-394212-703a8b25244e.json"
+load_dotenv()
 
 spark = SparkSession.builder\
   .appName('issue-tracker')\
@@ -21,7 +19,8 @@ data = [("120275181",
          datetime(2023, 7, 17, 14, 36, 0),
          datetime(2023, 7, 17, 14, 40, 0),
          "SPORTS",
-         0,
+         1000,
+         10,
          "https://sports.donga.com/sports/article/all/20230717/120275180/1"
          ),
         ("120275182",
@@ -30,7 +29,8 @@ data = [("120275181",
          datetime(2023, 7, 17, 14, 44, 0),
          datetime(2023, 7, 17, 14, 50, 0),
          "SPORTS",
-         0,
+         1000,
+         10,
          "https://sports.donga.com/sports/article/all/20230717/120275180/1"
          )
         ]
@@ -44,6 +44,7 @@ schema = StructType([
     StructField("scraped_at", TimestampType(), True),
     StructField("category", StringType(), True),
     StructField("hits", IntegerType(), True),
+    StructField("comments", IntegerType(), True),
     StructField("url", StringType(), True)
 ])
 

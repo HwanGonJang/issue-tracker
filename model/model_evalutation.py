@@ -1,8 +1,11 @@
 import requests
 import json
+import os
+from dotenv import load_dotenv
 
-client_id = "YmIY_Rsg2psdCIe0N9SM"
-client_secret = "1L5C03LrV4"
+load_dotenv()
+client_id = os.environ.get('NAVER_CLIENT_ID')
+client_secret = os.environ.get('NAVER_CLIENT_SECRET')
 url = "https://openapi.naver.com/v1/datalab/search"
 
 def get_request_body(category: str, keyword: str, date: str) -> str:

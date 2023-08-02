@@ -1,18 +1,19 @@
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
+import os
+from dotenv import load_dotenv
 import pandas as pd
 from datetime import datetime
 
-# 서비스 계정 인증 정보가 담긴 JSON 파일 경로
-KEY_PATH = "../config/issue-tracker-394212-703a8b25244e.json"
+load_dotenv()
 # Credentials 객체 생성
-credentials = service_account.Credentials.from_service_account_file(KEY_PATH)
+credentials = service_account.Credentials.from_service_account_file(os.environ.get('GOOGLE_APPLICATION_CREDENTIALS'))
 # 빅쿼리 클라이언트 객체 생성
 client = bigquery.Client(credentials = credentials, project = credentials.project_id)
 
 # 데이터를 삽입할 테이블 정보
-project_id = "issue-tracker-394212"
+project_id = os.environ.get('GOOGLE_CLOUD_PROJECT_ID')
 dataset_id = "news"
 table_id = "news"
 
@@ -22,7 +23,8 @@ data = [("120275183",
          datetime(2023, 7, 17, 14, 36, 0),
          datetime(2023, 7, 17, 14, 40, 0),
          "SPORTS",
-         0,
+         1000,
+         10,
          "https://sports.donga.com/sports/article/all/20230717/120275180/1"
          ),
         ("120275184",
@@ -31,13 +33,14 @@ data = [("120275183",
          datetime(2023, 7, 17, 14, 44, 0),
          datetime(2023, 7, 17, 14, 50, 0),
          "SPORTS",
-         0,
+         1000,
+         10,
          "https://sports.donga.com/sports/article/all/20230717/120275180/1"
          )
         ]
 
 # 데이터프레임 생성
-df = pd.DataFrame(data, columns=["id", "title", "content", "article_written_at", "scraped_at", "category", "hits", "url"])
+df = pd.DataFrame(data, columns=["id", "title", "content", "article_written_at", "scraped_at", "category", "hits", "comments", "url"])
 
 # 테이블 ID
 table_id = f"{project_id}.{dataset_id}.{table_id}"

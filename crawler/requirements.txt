@@ -1,0 +1,8 @@
+apscheduler
+uvicorn
+fastapi
+google-cloud-bigquery
+pandas
+requests
+python-dotenv
+pyarrow

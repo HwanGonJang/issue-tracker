@@ -1,0 +1,9 @@
+uvicorn
+fastapi
+google-cloud-bigquery
+pandas
+requests
+python-dotenv
+pyarrow
+konlpy
+pyspark==3.4.1

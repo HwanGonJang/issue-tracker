@@ -2,6 +2,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import to_timestamp, udf
 from pyspark.sql.dataframe import DataFrame
 
+from dataclasses import dataclass
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
@@ -25,13 +26,15 @@ table_id = "news"
 # 테이블 ID
 table_id = f"{project_id}.{dataset_id}.{table_id}"
 
+@dataclass
 class BigQuerySpark:
   spark: SparkSession
 
+  # 도커파일 경로 현재 위치로 바꾸기
   def __init__(self):
     self.spark = SparkSession.builder \
       .appName('issue-tracker') \
-      .config('spark.jars', './spark-3.3-bigquery-0.32.0.jar') \
+      .config('spark.jars', '../spark-3.3-bigquery-0.32.0.jar') \
       .getOrCreate()
 
     # UDF
@@ -95,7 +98,7 @@ class BigQuerySpark:
     FROM
         {view}
     WHERE
-        article_written_at >= to_timestamp(datetime_to_string_minus(60))
+        article_written_at >= to_timestamp(datetime_to_string_minus(60 * 3))
         AND article_written_at < to_timestamp(datetime_to_string_minus(0))
     """
 

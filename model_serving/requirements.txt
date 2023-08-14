@@ -7,3 +7,4 @@ python-dotenv
 pyarrow
 konlpy
 pyspark==3.4.1
+scikit-learn

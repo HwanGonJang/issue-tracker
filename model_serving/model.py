@@ -20,12 +20,12 @@ class Model:
     def __init__(self):
         self.okt = Okt()
 
-    def _preprocessed_data(self, df):
+    def _preprocessed_data(self, df, category):
         def remove_bracket_text(title):
             return re.sub(r'\[.*?\]', '', title)
 
         # '정치' 카테고리에 해당하는 모든 제목을 합친 후 명사 추출 작업 수행
-        category_politics = df[df['category'] == '정치']
+        category_politics = df[df['category'] == category]
         category_politics['title'] = category_politics['title'].apply(remove_bracket_text)  # 대괄호 안 신문사 이름 삭제
 
         return category_politics['title']
@@ -44,8 +44,8 @@ class Model:
             tokens = [tok for tok in tokens if len(tok) > 1]
         return tokens
 
-    def get_issue_keyword(self, df):
-        titles = self._preprocessed_data(df)
+    def get_issue_keyword(self, df, category):
+        titles = self._preprocessed_data(df, category)
 
         all_titles = ' '.join(titles)
 
@@ -60,9 +60,9 @@ class Model:
 
         return result[::-1]
 
-    def get_issue_keyword_LDA(self, df):
+    def get_issue_keyword_LDA(self, df, category):
         lda = LDA()
-        titles = self._preprocessed_data(df)
+        titles = self._preprocessed_data(df, category)
         issues = titles.values.tolist()
 
         processed = []
